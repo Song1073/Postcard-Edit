@@ -1,0 +1,158 @@
+.template-gallery {
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.gallery-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.gallery-header h1 {
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.gallery-header p {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+}
+
+/* Category Filter */
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  padding: 1rem;
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.filter-btn:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.filter-icon {
+  font-size: 1.25rem;
+}
+
+/* Templates Grid */
+.templates-grid {
+  margin-bottom: 2rem;
+}
+
+.template-card {
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition);
+  padding: 0;
+}
+
+.template-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-xl);
+}
+
+.template-preview {
+  width: 100%;
+  aspect-ratio: 3/2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.template-content {
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+.preview-text {
+  margin: 0.5rem 0;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.template-info {
+  padding: 1.5rem;
+  background-color: var(--bg-primary);
+  text-align: center;
+}
+
+.template-info h3 {
+  font-size: 1.125rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.template-info .btn {
+  width: 100%;
+}
+
+.no-templates {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .gallery-header h1 {
+    font-size: 2rem;
+  }
+
+  .category-filter {
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .filter-icon {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .gallery-header p {
+    font-size: 1rem;
+  }
+
+  .category-filter {
+    justify-content: flex-start;
+  }
+}
+
