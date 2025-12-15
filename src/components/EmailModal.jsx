@@ -53,30 +53,56 @@ function EmailModal({ cardRef, cardData, onClose, onSuccess }) {
     }
   }
 
+  // Download card image and prepare email
+  const prepareEmailWithAttachment = async (data) => {
+    try {
+      // First, download the card image to user's computer
+      const filename = `greeting-card-${Date.now()}.png`
+
+      // Convert data URL to blob and download
+      const response = await fetch(data.cardImage)
+      const blob = await response.blob()
+
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = filename
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+
+      // Wait a moment for download to start
+      await new Promise(resolve => setTimeout(resolve, 500))
+
+      // Create mailto link with instructions
+      const subject = `You've received a greeting card from ${data.senderName || 'a friend'}!`
+      const body = `Hi ${data.recipientName || 'there'},\n\n${data.message || 'Someone sent you a greeting card!'}\n\n📎 Please attach the downloaded image "${filename}" to this email.\n\nBest regards,\n${data.senderName || 'Your friend'}`
+      const mailtoLink = `mailto:${data.recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+
+      // Open mailto link
+      window.location.href = mailtoLink
+
+      return true
+    } catch (error) {
+      console.error('Error preparing email:', error)
+      throw error
+    }
+  }
+
   // Simulate email sending (in production, this would be an API call)
-  const simulateEmailSending = (data) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        console.log('Email would be sent with data:', {
-          to: data.recipientEmail,
-          recipientName: data.recipientName,
-          from: data.senderName,
-          message: data.message,
-          cardName: data.cardName,
-          hasAttachment: !!data.cardImage
-        })
-        
-        // Create a mailto link as fallback
-        const subject = `You've received a greeting card from ${data.senderName || 'a friend'}!`
-        const body = `Hi ${data.recipientName || 'there'},\n\n${data.message || 'Someone sent you a greeting card!'}\n\nBest regards,\n${data.senderName || 'Your friend'}`
-        const mailtoLink = `mailto:${data.recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-        
-        // Open mailto link
-        window.location.href = mailtoLink
-        
-        resolve()
-      }, 1500)
+  const simulateEmailSending = async (data) => {
+    console.log('Preparing email with data:', {
+      to: data.recipientEmail,
+      recipientName: data.recipientName,
+      from: data.senderName,
+      message: data.message,
+      cardName: data.cardName,
+      hasAttachment: !!data.cardImage
     })
+
+    // Prepare email with downloaded attachment
+    await prepareEmailWithAttachment(data)
   }
 
   return (
@@ -168,8 +194,11 @@ function EmailModal({ cardRef, cardData, onClose, onSuccess }) {
 
         <div className="email-note">
           <p>
-            <strong>Note:</strong> This will open your default email client to send the card.
-            In a production app, this would send the email directly through a server.
+            <strong>How to send electronic greeting card:</strong><br/>
+            1. After clicking "Send eCard", the greeting card image will be automatically downloaded to your computer<br/>
+            2. Your default email client (Outlook) will open automatically<br/>
+            3. Please manually add the downloaded image as an attachment in the email, then send<br/>
+            <em>Note: In production environment, this will send email directly through the server.</em>
           </p>
         </div>
       </div>

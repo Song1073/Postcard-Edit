@@ -1,5 +1,5 @@
 import React from 'react'
-import { Heart, Github, Mail } from 'lucide-react'
+import { Github, Mail } from 'lucide-react'
 import './Footer.css'
 
 function Footer() {
@@ -41,7 +41,7 @@ function Footer() {
 
         <div className="footer-bottom">
           <p>
-            Made with <Heart size={16} className="heart-icon" /> • © {currentYear} Greeting Card Maker
+            © {currentYear} Greeting Card Maker
           </p>
         </div>
       </div>

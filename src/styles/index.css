@@ -120,17 +120,58 @@ img {
   border-radius: var(--radius-md);
   transition: var(--transition);
   text-align: center;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
 }
 
 .btn-primary {
   background-color: var(--primary-color);
   color: white;
+  position: relative;
+  z-index: 1;
 }
 
 .btn-primary:hover {
   background-color: var(--primary-dark);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+  color: white !important; /* Ensure text stays white on hover */
+}
+
+/* Additional fix for button text visibility */
+.btn-primary,
+.btn-primary:link,
+.btn-primary:visited,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+  color: white !important;
+  text-decoration: none !important;
+}
+
+/* Force text visibility for all buttons */
+.btn {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+
+.btn span,
+.btn svg {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Specific fix for hero buttons */
+.hero .btn-primary:hover span,
+.hero .btn-primary:hover svg {
+  color: white !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .btn-secondary {
@@ -140,6 +181,7 @@ img {
 
 .btn-secondary:hover {
   background-color: #db2777;
+  color: white !important; /* keep text white on hover */
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }

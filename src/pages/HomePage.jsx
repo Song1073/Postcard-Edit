@@ -1,14 +1,56 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { cardCategories } from '../templates/templateData'
 import { Sparkles, Download, Mail, Save, Palette } from 'lucide-react'
+import { getHeroBackground, getDifferentBackground } from '../config/heroBackgrounds'
 import './HomePage.css'
 
 function HomePage() {
+  const [heroBackground, setHeroBackground] = useState(null)
+  const [ctaBackground, setCtaBackground] = useState(null)
+
+  useEffect(() => {
+    // Get background image from image folder for Hero
+    const background = getHeroBackground()
+    if (background) {
+      // Preload the image to check if it exists
+      const img = new Image()
+      img.onload = () => {
+        setHeroBackground(background)
+        
+        // Get a different background for CTA section
+        const ctaBg = getDifferentBackground(background)
+        if (ctaBg) {
+          const ctaImg = new Image()
+          ctaImg.onload = () => {
+            setCtaBackground(ctaBg)
+          }
+          ctaImg.onerror = () => {
+            setCtaBackground(null)
+          }
+          ctaImg.src = ctaBg
+        }
+      }
+      img.onerror = () => {
+        // If image doesn't exist, use default gradient
+        setHeroBackground(null)
+      }
+      img.src = background
+    }
+  }, [])
+
   return (
     <div className="home-page">
       {/* Hero Section */}
-      <section className="hero">
+      <section 
+        className="hero"
+        style={heroBackground ? {
+          backgroundImage: `url(${heroBackground})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        } : {}}
+      >
         <div className="container">
           <div className="hero-content">
             <h1 className="hero-title fade-in">
@@ -89,7 +131,15 @@ function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="cta">
+      <section 
+        className="cta"
+        style={ctaBackground ? {
+          backgroundImage: `url(${ctaBackground})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        } : {}}
+      >
         <div className="container">
           <div className="cta-content">
             <h2>Ready to Create Your Perfect Card?</h2>
